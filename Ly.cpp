@@ -1,39 +1,8 @@
 ﻿
-#include<stdio.h>
+#include <stdio.h>
 #include <iostream>
 #include <math.h>
-
-namespace Ly
-{
-    template<class T> class LyPoint3d
-    {
-    public:
-        T X, Y, Z;
-        LyPoint3d();
-        LyPoint3d(T a);
-        LyPoint3d(T a, T b, T c);
-        LyPoint3d(const LyPoint3d& s);
-        LyPoint3d& operator= (const LyPoint3d<T>& s);
-        LyPoint3d  operator+ (const LyPoint3d<T>& a);
-        LyPoint3d  operator- (const LyPoint3d<T>& a);
-
-        friend LyPoint3d<T> operator* (const LyPoint3d<T>& a, T r)
-        {
-            return LyPoint3d<T>(r * a.X, r * a.Y, r*a.Z);
-        }
-        friend LyPoint3d<T> operator* (T r, const LyPoint3d<T>& a)
-        {
-            return LyPoint3d<T>(r * a.X, r * a.Y, r*a.Z);
-        }
-        friend LyPoint3d<T> operator/ (const LyPoint3d<T>& a, T r)
-        {
-            return LyPoint3d<T>(a.X / r, a.Y / r, a.Z/r);
-        }
-
-        void Set(T a, T b, T c);
-        ~LyPoint3d() {}
-    };
-}
+#include "Ly.hpp"
 
 namespace Ly
 {
@@ -59,13 +28,13 @@ namespace Ly
     }
     template<class T> LyPoint3d<T>& LyPoint3d<T>::operator= (const LyPoint3d<T>& s)
     {
-        if (this != &s)  //判断是否给同一个对象赋值
+        if (this != &s)  
         {
             this->X = s.X;
             this->Y = s.Y;
             this->Z = s.Z;
         }
-        return *this;       //返回当前对象
+        return *this;      
     }
     template<class T> LyPoint3d<T> LyPoint3d<T>::operator+ (const LyPoint3d<T>& a)
     {
@@ -81,12 +50,28 @@ namespace Ly
         T z = this->Z - a.Z;
         return LyPoint3d(x, y, z);
     }
+    template<class T> LyPoint3d<T> LyPoint3d<T>::operator* (T r)    //a3=this.operator*(r)
+    {
+        return LyPoint3d(r * this->X, r * this->Y, r*this->Z);
+    }
+    template<class T> LyPoint3d<T> LyPoint3d<T>::operator/ (T r)
+    {
+        return LyPoint3d(this->X/r, this->Y/r, this->Z/r);
+    }
     template<class T> void LyPoint3d<T>::Set(T a, T b, T c)
     {
         this->X = a;
         this->Y = b;
         this->Z = c;
     }
+}
+
+namespace Ly
+{
+    double ERROR = 1.0E-6;
+    double GetERROR(){return ERROR;}
+    void   SetERROR(double a){ERROR = a;}
+    void   ResetERROR(){ERROR = 1.0E-6;}
 }
 
 namespace Ly
@@ -132,18 +117,24 @@ int main()
     Ly::LyPoint3d<int> c(1, 2, 3);
     Ly::LyPoint3d<double> e(a);
     Ly::LyPoint3d<double> f = a;
-    Ly::LyPoint3d<double> d = 0.5*a + 2.0*e + f/3.0;
-    std::cout << d.X << " " << d.Y << " " << d.Z << std::endl;
+    Ly::LyPoint3d<double> d = a*0.5 + f/3.0 + 2.0*a;
+    std::cout << "d = " << d.X << " " << d.Y << " " << d.Z << std::endl;
 
     typedef Ly::LyPoint3d<double> point;
     point P0(1.0, 2.3, 3.4);
     point P1(2.3, 3.5, 4.7);
-    std::cout << dis(P0, P0) << std::endl;
-    std::cout << dis(P0, P1) << std::endl;
+    std::cout << "P0P0 = " << dis(P0, P0) << std::endl;
+    std::cout << "P0P1 = " << dis(P0, P1) << std::endl;
 
     Ly::LyVec<2, double> A(1.0);
     typedef Ly::LyVec<3, int> vec;
     vec B;
     std::cout << A.GetNum() << std::endl;
     std::cout << A.v[0] << " " << A.v[1] << " " << std::endl;
+
+    printf("ERROR = %lf\n", Ly::ERROR);
+    Ly::SetERROR(1.0e-4);
+    printf("ERROR = %lf\n", Ly::GetERROR());
+    Ly::ResetERROR();
+    printf("ERROR = %lf\n", Ly::GetERROR());
 }
