@@ -15,10 +15,10 @@ namespace Ly
         LyPoint3d  operator* (T r);    
         LyPoint3d  operator/ (T r);
 
-        friend LyPoint3d<T> operator* (T r, const LyPoint3d<T>& a)
-        {
-            return LyPoint3d<T>(r * a.X, r * a.Y, r*a.Z);
-        }
+        // friend LyPoint3d<T> operator* (T r, const LyPoint3d<T>& a)
+        // {
+        //     return LyPoint3d<T>(r * a.X, r * a.Y, r*a.Z);
+        // }
 
         void Set(T a, T b, T c);
         ~LyPoint3d() {}

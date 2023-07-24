@@ -117,8 +117,8 @@ int main()
     Ly::LyPoint3d<int> c(1, 2, 3);
     Ly::LyPoint3d<double> e(a);
     Ly::LyPoint3d<double> f = a;
-    Ly::LyPoint3d<double> d = a*0.5 + f/3.0 + 2.0*a;
-    std::cout << "d = " << d.X << " " << d.Y << " " << d.Z << std::endl;
+    // Ly::LyPoint3d<double> d = a*0.5 + f/3.0 + 2.0*a;
+    // std::cout << "d = " << d.X << " " << d.Y << " " << d.Z << std::endl;
 
     typedef Ly::LyPoint3d<double> point;
     point P0(1.0, 2.3, 3.4);
