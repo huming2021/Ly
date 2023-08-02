@@ -136,5 +136,5 @@ int main()
     Ly::SetERROR(1.0e-4);
     printf("ERROR = %lf\n", Ly::GetERROR());
     Ly::ResetERROR();
-    printf("ERROR = %lf\n", Ly::GetERROR());
+    // printf("ERROR = %lf\n", Ly::GetERROR());
 }
